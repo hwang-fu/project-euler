@@ -53,3 +53,8 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# customized files
+*.clangd
+.euler
+

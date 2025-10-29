@@ -56,5 +56,5 @@ dkms.conf
 
 # customized files
 *.clangd
+*a.out
 .euler
-

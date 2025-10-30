@@ -11,6 +11,7 @@
 ///     b = k (2mn)
 ///     c = k (m^2 + n^2)
 /// with m >= n >= 1, gcd(m, n) = 1 and k >= 1
+/// NOTE: sometimes this way a is larger than b, in such case, just swap them.
 /// ...
 /// a + b + c = k (2m^2 + 2mn) = 2 k m (m + n) = 1000
 /// k m (m + n) = 500
@@ -57,6 +58,13 @@ void solve()
             uint64_t a = k * (m * m - n * n);
             uint64_t b = k * (2 * m * n);
             uint64_t c = k * (m * m + n * n);
+
+            if (a > b)
+            {
+                a ^= b;
+                b ^= a;
+                a ^= b;
+            }
 
             uint64_t abc = a * b * c;
             fprintf(stdout, "abc=%lu\n", abc);

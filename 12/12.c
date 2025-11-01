@@ -16,6 +16,9 @@
 
 // Smallest-Prime-Factor (SPF) Sieve:
 // We assume the SPF limit, 5000000 is pretty enough.
+// Why?
+// Every integer n can be written uniquely as n = prime1^exponent1 x prime2 ^ exponent2 x ...
+// Tau(n) = (exponent1 + 1) x (exponent2 + 1) x ...
 //
 // However,
 // if you don't wanna assume a fixed limit value, you can dynamically grow it,

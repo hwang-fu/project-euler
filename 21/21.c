@@ -15,8 +15,8 @@ uint64_t d(uint64_t n)
         return D_n[n];
     }
 
-    uint64_t sum = 1;
-    for (uint64_t i = 2; i <= n / 2; i++)
+    uint64_t sum = 0;
+    for (uint64_t i = 1; i <= n / 2; i++)
     {
         if (n % i == 0)
         {
@@ -31,9 +31,17 @@ uint64_t d(uint64_t n)
     return sum;
 }
 
-bool IsAmicable(uint64_t n)
+bool IsAmicable(uint64_t a)
 {
-    return d(d(n)) == n && d(n) != n;
+    uint64_t b = d(a);
+
+    if (a == b)
+    {
+        // different number required.
+        return false;
+    }
+
+    return a == d(b);
 }
 
 void Solve()

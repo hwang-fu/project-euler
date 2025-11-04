@@ -14,7 +14,7 @@ const isAbundantNumber = (n) => {
 
 const isSumOfTwoAbundantNumbers = (n) => {
     for (const abundantNumber of AbundantNumbers) {
-        if (n <= abundantNumber) continue;
+        if (n <= abundantNumber) break;
         const diff = n - abundantNumber;
         if (AbundantNumbers.includes(diff)) return true;
     }

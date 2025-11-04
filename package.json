@@ -1,0 +1,27 @@
+{
+    "name": "project-euler",
+    "version": "1.0.0",
+    "description": "A collection of solutions in different programming languages for the [Project Euler](https://projecteuler.net/).",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hwang-fu/project-euler.git"
+    },
+    "keywords": [],
+    "author": "hwang-fu",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/hwang-fu/project-euler/issues"
+    },
+    "homepage": "https://github.com/hwang-fu/project-euler#readme",
+    "devDependencies": {
+        "@types/node": "^24.10.0",
+        "ts-node": "^10.9.2",
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3"
+    }
+}

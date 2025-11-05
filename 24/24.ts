@@ -60,4 +60,4 @@ const kthPermutation = (arr: number[], k: number) => {
 // k=1..6 => 012, 021, 102, 120, 201, 210
 // for (let k = 1; k <= 6; k++) {
 //  console.log(k, kthPermutation([0,1,2], k));
-// }
+// }export {};

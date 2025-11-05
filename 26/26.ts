@@ -92,4 +92,4 @@ const ReciprocalCycles = (d: number) => {
     }
 
     console.log(d);
-})();
+})();export {};

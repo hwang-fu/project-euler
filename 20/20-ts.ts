@@ -27,4 +27,4 @@ function main() {
     console.log(sum);
 }
 
-main();
+main();export {};

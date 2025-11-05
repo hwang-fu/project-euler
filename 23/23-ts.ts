@@ -65,4 +65,4 @@ const qualify = (n: number) => {
     }
 
     console.log(total);
-})();
+})();export {};

@@ -7,4 +7,4 @@
         n++;
     }
     console.log(n);
-})();
+})();export {};

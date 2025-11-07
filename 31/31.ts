@@ -1,5 +1,6 @@
 const K = 200;
 
+// Reversed order also works.
 const Coins = [200, 100, 50, 20, 10, 5, 2, 1];
 
 const CoinSums = (amount: number, startIdx: number) => {

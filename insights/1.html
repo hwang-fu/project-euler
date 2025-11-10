@@ -164,15 +164,258 @@
 
 
 <!-- * * * * * * * * * * * * * * -->
-<h3></h3>
+<h3>C Solution Walkthrough</h3>
 <ol>
-    <li>C Solution Walkthrough</li>
+    <li><b>Problem Statement</b></li>
+    <br/>
+    <ul>
+        <li>
+            <i>
+                Find the sum of all the natural numbers below <code>N</code> that are multiples of <code>3</code> or <code>5</code>.
+            </i>
+        </li>
+        <br/>
+        <li>For the original problem, <code>N = 1000</code>.</li>
+        <br/>
+        <li>Example for a smaller <code>N</code>:
+            <ul>
+                <li>Below <code>10</code>, the multiples of <code>3</code> or <code>5</code> are <code>3, 5, 6, 9</code>.</li>
+                <li>Their sum is <code>3 + 5 + 6 + 9 = 23</code>.</li>
+            </ul>
+        </li>
+    </ul>
     <br/>
     <br/>
-    <li></li>
+
+
+    <li><b>My C Solution</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+#ifndef N
+#define N (1000ul)
+#endif // N
+
+uint64_t solve(uint64_t n)
+{
+    uint64_t sum = 0;
+    for (uint64_t i = 3; i &lt; n; i++)
+    {
+        if (i % 3 == 0 || i % 5 == 0)
+        {
+            sum += i;
+        }
+    }
+    return sum;
+}
+
+int main()
+{
+    fprintf(
+            stdout,
+            "The sum of all the multiples of 3 or 5 below %lu is: %lu\n",
+            N,
+            solve( N ));
+    return 0;
+}
+</code></pre>
     <br/>
     <br/>
-    <li></li>
+
+
+    <li><b>High-Level Approach</b></li>
+    <br/>
+    <ul>
+        <li>We want all numbers <code>i</code> such that:
+            <ul>
+                <li><code>0 &lt; i &lt; N</code></li>
+                <li>and <code>i</code> is divisible by <code>3</code> or <code>5</code></li>
+            </ul>
+        </li>
+        <br/>
+        <li>The algorithm you used is straightforward and readable:</li>
+        <ol>
+            <li>Start with <code>sum = 0</code>.</li>
+            <li>Loop over all integers <code>i</code> from <code>3</code> up to (but not including) <code>N</code>.</li>
+            <li>If <code>i</code> is a multiple of <code>3</code> or <code>5</code>, add it to <code>sum</code>.</li>
+            <li>At the end, return <code>sum</code>.</li>
+        </ol>
+        <br/>
+        <li>This is an <b>O(N)</b> solution: it checks each integer once.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Header Files and Types</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+</code></pre>
+    <br/>
+    <ul>
+        <li><code>&lt;stdint.h&gt;</code> is included so you can use fixed-width integer types like <code>uint64_t</code>.</li>
+        <br/>
+        <li><code>&lt;stdio.h&gt;</code> is needed for <code>fprintf</code> and <code>stdout</code> in <code>main</code>.</li>
+        <br/>
+        <li>Using <code>uint64_t</code> for the sum is a defensive choice:
+            <ul>
+                <li>It's a 64-bit unsigned integer — very large range before overflow.</li>
+                <li>Even if you increased <code>N</code> (for other experiments), your sum is unlikely to overflow quickly.</li>
+            </ul>
+        </li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>The N macro (configurable limit)</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">#ifndef N
+#define N (1000ul)
+#endif // N
+</code></pre>
+    <br/>
+    <ul>
+        <li>This allows <code>N</code> to be defined at compile-time (for example via <code>-DN=2000</code>), while still having a default.</li>
+        <br/>
+        <li>If <code>N</code> is not already defined, it defaults to <code>1000ul</code>:
+            <ul>
+                <li><code>1000ul</code> → <code>unsigned long</code> literal.</li>
+                <li>Good match for the <code>%lu</code> format specifier in <code>fprintf</code>.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>So you can compile like:</li>
+    </ul>
+<pre><code class="language-bash line-numbers">gcc -DN=5000 euler1.c -o euler1
+./euler1
+</code></pre>
+    <br/>
+    <ul>
+        <li>Now the program will compute the sum below <code>5000</code> instead of <code>1000</code>, without changing the source code.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>The <code>solve</code> Function</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">uint64_t solve(uint64_t n)
+{
+    uint64_t sum = 0;
+    for (uint64_t i = 3; i &lt; n; i++)
+    {
+        if (i % 3 == 0 || i % 5 == 0)
+        {
+            sum += i;
+        }
+    }
+    return sum;
+}
+</code></pre>
+    <br/>
+    <ul>
+        <li><code>uint64_t solve(uint64_t n)</code>:
+            <ul>
+                <li>The function takes a single parameter <code>n</code> — the exclusive upper bound.</li>
+                <li>It returns the total sum as a 64-bit unsigned integer.</li>
+            </ul>
+        </li>
+        <br/>
+        <li><code>uint64_t sum = 0;</code>:
+            <ul>
+                <li>Initializes the running total.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>The <code>for</code> loop:
+<pre><code class="language-c line-numbers">for (uint64_t i = 3; i &lt; n; i++)
+</code></pre>
+            <ul>
+                <li>Starts <code>i</code> at <code>3</code> because <code>1</code> and <code>2</code> are not multiples of <code>3</code> or <code>5</code> (you could also start from <code>1</code>, but this is a tiny micro-optimization).</li>
+                <li>Runs while <code>i &lt; n</code>, so <code>n</code> itself is not included — which exactly matches "below <code>n</code>".</li>
+            </ul>
+        </li>
+        <br/>
+        <li>The condition:
+<pre><code class="language-c line-numbers">if (i % 3 == 0 || i % 5 == 0)
+</code></pre>
+            <ul>
+                <li><code>i % 3 == 0</code> → <code>i</code> is divisible by 3.</li>
+                <li><code>i % 5 == 0</code> → <code>i</code> is divisible by 5.</li>
+                <li>The logical OR <code>||</code> means if either is true, the number counts.</li>
+                <li>This automatically handles numbers like <code>15</code> which are multiples of both 3 and 5 — they are still added only once because the condition is just a yes/no test.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>Accumulating into <code>sum</code>:
+<pre><code class="language-c line-numbers">sum += i;
+</code></pre>
+            <ul>
+                <li>Each qualifying <code>i</code> is added to the running total.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>Finally:
+<pre><code class="language-c line-numbers">return sum;
+</code></pre>
+            <ul>
+                <li>After finishing the loop, the function returns the total sum of all such multiples.</li>
+            </ul>
+        </li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>The <code>main</code> Function</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">int main()
+{
+    fprintf(
+            stdout,
+            "The sum of all the multiples of 3 or 5 below %lu is: %lu\n",
+            N,
+            solve( N ));
+    return 0;
+}
+</code></pre>
+    <br/>
+    <ul>
+        <li><code>solve(N)</code> calls your function with the compile-time constant <code>N</code>.</li>
+        <br/>
+        <li><code>fprintf(stdout, ...)</code> prints the result to standard output:
+            <ul>
+                <li><code>%lu</code> is used twice for printing <code>unsigned long</code> values (for <code>N</code> and the result).</li>
+                <li>This matches <code>1000ul</code> as the default <code>N</code>.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>The output is a friendly sentence:
+<pre><code class="language-text">
+The sum of all the multiples of 3 or 5 below 1000 is: 233168
+</code></pre>
+        </li>
+        <br/>
+        <li><code>return 0;</code> indicates successful program termination.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Complexity and Performance</b></li>
+    <br/>
+    <ul>
+        <li>The loop runs once for every integer <code>i</code> from <code>3</code> to <code>n-1</code>.</li>
+        <br/>
+        <li>Time complexity: <b>O(n)</b>.</li>
+        <br/>
+        <li>Space complexity: <b>O(1)</b> — only a few integer variables.</li>
+        <br/>
+        <li>For <code>n = 1000</code>, this is extremely fast. Even for quite large <code>n</code>, this approach is fine in C.</li>
+    </ul>
     <br/>
 </ol>
 <br/>

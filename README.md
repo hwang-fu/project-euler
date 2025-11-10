@@ -1,4 +1,3 @@
-# project-euler
+# Project Euler (PE)
 
-A collection of solutions in different programming languages for the [Project Euler](https://projecteuler.net/).
-
+This is a collection of my solutions in different programming languages for the [Project Euler](https://projecteuler.net/).

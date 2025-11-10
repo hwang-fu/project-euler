@@ -423,6 +423,191 @@ The sum of all the multiples of 3 or 5 below 1000 is: 233168
 
 
 <hr/>
+
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>Haskell Solution Walkthrough</h3>
+<ol>
+    <li><b>Problem Statement</b></li>
+    <br/>
+    <ul>
+        <li>Same as before.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>The Full Haskell Solution</b></li>
+<pre><code class="language-haskell line-numbers">main :: IO ()
+main = print $ sum [x | x &lt;- [1 .. 999], x `mod` 3 == 0 || x `mod` 5 == 0]
+</code></pre>
+    <br/>
+    <ul>
+        <li>This is a compact but fully functional Haskell program — no helper functions required.</li>
+        <li>We'll now break it down line by line to understand every part.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>The Type Signature</b></li>
+<pre><code class="language-haskell line-numbers">main :: IO ()
+</code></pre>
+    <br/>
+    <ul>
+        <li>In Haskell, every program must have a <code>main</code> function of type <code>IO ()</code>.</li>
+        <br/>
+        <li>This means it performs side effects (printing to the console) but doesn't return a value in the pure sense — the empty parentheses <code>()</code> mean "no meaningful value."</li>
+        <br/>
+        <li>All computation inside <code>main</code> must therefore be expressed as an <b>IO action</b>.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>The Body of <code>main</code></b></li>
+<pre><code class="language-haskell line-numbers">main = print $ sum [x | x &lt;- [1 .. 999], x `mod` 3 == 0 || x `mod` 5 == 0]
+</code></pre>
+    <br/>
+    <ul>
+        <li>This line combines three main concepts in idiomatic Haskell:
+            <ol>
+                <li><b>List comprehension</b> — to build the list of all numbers divisible by 3 or 5.</li>
+                <li><b>sum</b> — a built-in higher-order function that adds all elements in a list.</li>
+                <li><b>print</b> — an I/O action that displays the result.</li>
+            </ol>
+        </li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>List Comprehension</b></li>
+<pre><code class="language-haskell line-numbers">[x | x &lt;- [1 .. 999], x `mod` 3 == 0 || x `mod` 5 == 0]
+</code></pre>
+    <br/>
+    <ul>
+        <li>This is Haskell's <b>list comprehension</b> syntax, inspired by mathematical set notation.</li>
+        <br/>
+        <li>It can be read as:
+            <blockquote>
+                "The list of all <code>x</code> taken from <code>[1..999]</code>, such that <code>x</code> is divisible by 3 or 5."
+            </blockquote>
+        </li>
+        <br/>
+        <li>Breaking it down:
+            <ul>
+                <li><code>[1 .. 999]</code> → Generates all integers from 1 to 999 (inclusive).</li>
+                <li><code>x &lt;- [1 .. 999]</code> → Means "take each <code>x</code> from that list."</li>
+                <li><code>x `mod` 3 == 0 || x `mod` 5 == 0</code> → The filtering condition.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>So only numbers satisfying the condition remain in the resulting list.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Using <code>sum</code></b></li>
+<pre><code class="language-haskell line-numbers">sum [x | x &lt;- [1 .. 999], x `mod` 3 == 0 || x `mod` 5 == 0]
+</code></pre>
+    <br/>
+    <ul>
+        <li><code>sum</code> is a built-in Haskell function that adds up all elements in a list of numbers.</li>
+        <br/>
+        <li>Type signature (simplified):
+<pre><code class="language-haskell">sum :: (Num a) =&gt; [a] -&gt; a
+</code></pre>
+        </li>
+        <li>It takes a list of numbers and returns their total.</li>
+        <br/>
+        <li>Here, <code>[x | ...]</code> produces a list like <code>[3,5,6,9,10,12,...,999]</code>, and <code>sum</code> adds them together.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Printing the Result</b></li>
+<pre><code class="language-haskell line-numbers">print $ sum [...]
+</code></pre>
+    <br/>
+    <ul>
+        <li><code>print</code> is a standard I/O function in Haskell that converts a value to a string and writes it to standard output.</li>
+        <br/>
+        <li>Type signature:
+<pre><code class="language-haskell">print :: Show a =&gt; a -&gt; IO ()
+</code></pre>
+        </li>
+        <br/>
+        <li>The <code>$</code> operator is just syntactic sugar for parentheses:
+            <ul>
+                <li><code>print $ sum [ ... ]</code> = <code>print (sum [ ... ])</code></li>
+            </ul>
+        </li>
+        <br/>
+        <li>The whole expression produces an <code>IO ()</code> action — suitable for <code>main</code>.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Putting It All Together</b></li>
+    <br/>
+    <ul>
+        <li>The evaluation steps conceptually look like this:</li>
+    </ul>
+<pre><code class="language-haskell line-numbers">-- Step 1: Generate the list
+[x | x &lt;- [1..999], x `mod` 3 == 0 || x `mod` 5 == 0]
+-- =&gt; [3,5,6,9,10,12,15,18,20,...,999]
+
+-- Step 2: Sum the list
+sum [3,5,6,9,10,12,15,...,999]
+-- =&gt; 233168
+
+-- Step 3: Print the result
+print 233168
+</code></pre>
+    <br/>
+    <ul>
+        <li>Haskell lazily generates and sums the list; memory use stays small because it doesn't keep the entire list in memory at once — elements are processed as needed.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Performance Consideration</b></li>
+    <br/>
+    <ul>
+        <li>This is an <b>O(n)</b> approach: it checks every number up to 999 once.</li>
+        <br/>
+        <li>For such a small range, this is trivial and effectively instantaneous.</li>
+        <br/>
+        <li>Like the C version, you could also use a mathematical shortcut with arithmetic series, but Haskell's concise syntax makes even the direct version perfectly fine.</li>
+    </ul>
+    <br/>
+    <br/>
+
+
+    <li><b>Alternative: Using Higher-Order Functions</b></li>
+<pre><code class="language-haskell line-numbers">main :: IO ()
+main = print . sum . filter f $ [1..999]
+  where f x = x `mod` 3 == 0 || x `mod` 5 == 0
+</code></pre>
+    <br/>
+    <ul>
+        <li>This version uses <code>filter</code> and function composition (<code>.</code>) instead of list comprehension.</li>
+        <li>Both are equivalent; the choice is stylistic.</li>
+        <li>Haskell programmers often prefer whichever feels more readable in context.</li>
+    </ul>
+    <br/>
+</ol>
+<br/>
+
+<!-- * * * * * * * * * * * * * * -->
+
+
+<hr/>
 <!-- * * * * * * * * * * * * * * -->
 
 <footer>

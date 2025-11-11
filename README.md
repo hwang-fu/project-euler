@@ -31,3 +31,5 @@ This is a collection of my solutions in different programming languages for the 
 - [Problem 27](27/)
 - [Problem 28](28/)
 - [Problem 29](29/)
+- [Problem 30](30/)
+- [Problem 31](31/)

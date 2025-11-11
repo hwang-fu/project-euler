@@ -1,0 +1,300 @@
+<!-- * * * * * * * * * * * * * * -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Project Euler #3 – Largest Prime Factor</title>
+
+    <!-- Theme (pick any from Prism site) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css">
+
+    <!-- Prism core + autoloader + line-numbers -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"
+            data-prismjs-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs/components/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        .hl-red      { background-color: red; }
+        .hl-green    { background-color: green; }
+        .hl-blue     { background-color: blue; }
+        .hl-yellow   { background-color: yellow; }
+
+        .hl-red-bg    { background-color: red; }
+        .hl-green-bg  { background-color: green; }
+        .hl-blue-bg   { background-color: blue; }
+        .hl-yellow-bg { background-color: yellow; }
+
+        .hl-red-fg    { color: red; }
+        .hl-green-fg  { color: green; }
+        .hl-blue-fg   { color: blue; }
+        .hl-yellow-fg { color: yellow; }
+        .hl-grey-fg   { color: grey; }
+        .hl-black-fg  { color: black; }
+
+        .comment {
+            color: grey;
+        }
+
+        .red-underline {
+            text-decoration-line: underline;
+            text-decoration-color: red;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+
+        body {
+            font-family: "KaiTi", "楷体", "STKaiti", "Kaiti SC", serif;
+            font-variant-ligatures: none;
+        }
+
+        ul > li {
+            list-style-type: disc;
+        }
+
+        code {
+            color: #24292e;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: .375rem;
+            padding: .15rem .35rem;
+            font-family: "FiraCode Nerd Font", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        pre {
+            margin: 1rem 0;
+            padding: .8rem 1rem;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: .5rem;
+            overflow: auto;
+            tab-size: 4;
+        }
+
+        pre code {
+            display: block;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            color: #24292e;
+            font-family: "FiraCode Nerd Font", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+    </style>
+</head>
+<!-- * * * * * * * * * * * * * * -->
+<body>
+
+<hr/>
+<h1>Project Euler #3 – Largest Prime Factor</h1>
+<hr/>
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>Problem Overview</h3>
+<ul>
+    <li>We are given a large number, typically <code>600851475143</code>.</li>
+    <br/>
+    <li><b>Goal:</b> Find the largest prime factor of this number.</li>
+    <br/>
+    <li>Example with a smaller number:
+        <ul>
+            <li>Let <code>n = 13195</code>.</li>
+            <li>Its prime factors are <code>5, 7, 13, 29</code>.</li>
+            <li>The largest prime factor is <code>29</code>.</li>
+        </ul>
+    </li>
+</ul>
+
+<br/>
+<hr/>
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>C Solution</h3>
+
+<pre><code class="language-c line-numbers">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+
+#ifndef N
+#define N (600851475143ul)
+#endif // N
+
+uint64_t solve(uint64_t n)
+{
+    uint64_t largestPrimeFactor = 0;
+
+    // 1. remove factor 2 ( all the even factors will be eliminated).
+    while (n % 2 == 0)
+    {
+        largestPrimeFactor = 2;
+        n /= 2;
+    }
+
+    // 2. test odd factors (not necessarily prime) at 3, 5, 7, ...
+    for (uint64_t i = 3; i * i &lt;= n; i += 2)
+    {
+        while (n % i == 0)
+        {
+            largestPrimeFactor = i;
+            n /= i;
+        }
+    }
+
+    // 3. if n &gt; 1 then n itself is the largest prime factor of @arg {N}.
+    if (n &gt; 1)
+    {
+        largestPrimeFactor = n;
+    }
+
+    return largestPrimeFactor;
+}
+
+int main()
+{
+    fprintf(stdout, "The largest prime factor of the number %lu is %lu\n", N, solve(N));
+    return 0;
+}
+</code></pre>
+
+<br/>
+
+<ol>
+    <li><b>High-Level Idea</b></li>
+    <br/>
+    <ul>
+        <li>We successively divide out prime factors from <code>n</code> until it is reduced to <code>1</code> or to a remaining prime.</li>
+        <li>At each step, we remember the most recent factor that divided <code>n</code> — that factor is a candidate for “largest prime factor”.</li>
+        <li>By starting from small factors and moving upward, the last factor we record will be the largest prime factor.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Handling the Factor 2</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">while (n % 2 == 0)
+{
+    largestPrimeFactor = 2;
+    n /= 2;
+}
+</code></pre>
+    <ul>
+        <li>First, we take care of the only even prime, <code>2</code>.</li>
+        <li>While <code>n</code> is even, we divide it by <code>2</code> and record <code>2</code> as the current largest prime factor.</li>
+        <li>After this loop, <code>n</code> is guaranteed to be odd, so we can skip all even candidates later.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Testing Odd Factors</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">for (uint64_t i = 3; i * i &lt;= n; i += 2)
+{
+    while (n % i == 0)
+    {
+        largestPrimeFactor = i;
+        n /= i;
+    }
+}
+</code></pre>
+    <ul>
+        <li>We check odd potential factors <code>i</code> starting from <code>3</code>, incrementing by <code>2</code> each time: <code>3, 5, 7, 9, ...</code></li>
+        <li>The condition <code>i * i &lt;= n</code> is a common optimization:
+            <ul>
+                <li>If <code>n</code> still has a composite factor, at least one of its prime factors will be ≤ <code>√n</code>.</li>
+                <li>Once <code>i * i &gt; n</code>, any remaining <code>n</code> must be prime.</li>
+            </ul>
+        </li>
+        <li>Inner loop:
+            <ul>
+                <li>While <code>i</code> divides <code>n</code>, divide it out and record <code>i</code> as <code>largestPrimeFactor</code>.</li>
+                <li>This removes all copies of <code>i</code> (e.g., if <code>n</code> had <code>i^k</code> as a factor).</li>
+            </ul>
+        </li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Remaining Prime Factor</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">if (n &gt; 1)
+{
+    largestPrimeFactor = n;
+}
+</code></pre>
+    <ul>
+        <li>After the loop, if <code>n &gt; 1</code>, the remaining <code>n</code> itself is prime.</li>
+        <li>Because we removed small factors in increasing order, this leftover prime must be the largest prime factor.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b><code>main</code> and Configurable <code>N</code></b></li>
+    <br/>
+<pre><code class="language-c line-numbers">#ifndef N
+#define N (600851475143ul)
+#endif // N
+</code></pre>
+    <ul>
+        <li><code>N</code> defaults to <code>600851475143ul</code>, the number given in the original problem.</li>
+        <li>You can override it at compile time, for example:
+<pre><code class="language-bash line-numbers">gcc -DN=13195 euler3.c -o euler3
+./euler3
+</code></pre>
+        </li>
+        <li><code>main</code> simply prints the result:
+<pre><code class="language-c line-numbers">int main()
+{
+    fprintf(stdout, "The largest prime factor of the number %lu is %lu\n", N, solve(N));
+    return 0;
+}
+</code></pre>
+        </li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Complexity</b></li>
+    <br/>
+    <ul>
+        <li>In the worst case, the loop over odd <code>i</code> runs up to about <code>√n</code>, giving time complexity roughly <b>O(√n)</b>.</li>
+        <li>In practice this is fast enough for a single 64-bit number, especially in C.</li>
+        <li>Memory usage is constant: we only keep a few 64-bit integers.</li>
+    </ul>
+</ol>
+
+<br/>
+<hr/>
+
+<footer>
+    <p>&copy; 2025 Hwangfucius. All rights reserved.</p>
+</footer>
+
+</body>
+<!-- * * * * * * * * * * * * * * -->
+</html>
+<!-- * * * * * * * * * * * * * * -->
+

@@ -1,77 +1,122 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Project Euler Solutions – by Hwangfucius</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
-    body {
-      font-family: "Georgia", "Times New Roman", serif;
-      max-width: 800px;
-      margin: 60px auto;
-      padding: 0 20px;
-      line-height: 1.6;
-      color: #222;
-      background-color: #fafafa;
-    }
+    <meta charset="utf-8" />
+    <title>Project Euler Solutions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        body {
+            font-family: "Georgia", "Times New Roman", serif;
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px 40px;
+            line-height: 1.6;
+            color: #222;
+            background-color: #fafafa;
+        }
 
-    h1, h2 {
-      color: #333;
-    }
+        h1, h2 {
+            color: #333;
+            margin-top: 0;
+        }
 
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.25em;
+            text-align: center;
+        }
 
-    a:hover {
-      text-decoration: underline;
-    }
+        .subtitle {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1.5em;
+        }
 
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
 
-    li {
-      margin: 8px 0;
-    }
+        a:hover {
+            text-decoration: underline;
+        }
 
-    ul > li {
-        list-style-type: disc;
-    }
+        .section {
+            margin-top: 2rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #ddd;
+        }
 
-    footer {
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #555;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
-      text-align: center;
-    }
-  </style>
+        .section:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .section p {
+            margin: 0.4em 0 0.6em;
+        }
+
+        .problem-list {
+            list-style-type: disc;
+            padding-left: 1.4rem;
+            margin: 0.3em 0 0.2em;
+        }
+
+        .problem-list li {
+            margin: 6px 0;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #555;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Project Euler (PE)</h1>
-  <p>
-    This page collects my personal solutions for various problems from
-    <a href="https://projecteuler.net" target="_blank">Project Euler</a>.
-    Each problem is solved in multiple programming languages and will be explained step by step when I have time.
-  </p>
+    <h1>Project Euler (PE)</h1>
 
-  <h2>Problem List</h2>
-  <ul>
-    <li><a href="docs/1.html">Problem 1 – Multiples of 3 and 5</a></li>
-    <li><a href="docs/2.html">Problem 2 – Even Fibonacci Numbers</a></li>
-    <li><a href="docs/3.html">Problem 3 – Largest Prime Factor</a></li>
-    <li><a href="docs/4.html">Problem 4 – Largest Palindrome Product</a></li>
-  </ul>
+    <section class="section">
+        <h2>About</h2>
+        <p>
+            This page collects my personal solutions for various problems from
+            <a href="https://projecteuler.net" target="_blank" rel="noopener noreferrer">Project Euler</a>.
+            Each problem may appear in multiple programming languages and is gradually
+            explained in more detail as I revisit it.
+        </p>
+    </section>
 
-  <footer>
-    © 2025 Hwangfucius · <a href="https://github.com/hwang-fu">GitHub</a> · <a href="https://projecteuler.net">Project Euler</a>
-  </footer>
+    <section class="section">
+        <h2>Problem List</h2>
+        <ul class="problem-list">
+            <li><a href="docs/1.html">Problem 1 – Multiples of 3 and 5</a></li>
+            <li><a href="docs/2.html">Problem 2 – Even Fibonacci Numbers</a></li>
+            <li><a href="docs/3.html">Problem 3 – Largest Prime Factor</a></li>
+            <li><a href="docs/4.html">Problem 4 – Largest Palindrome Product</a></li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2>Repository</h2>
+        <p>
+            All code used on these pages lives in this
+            <a href="https://github.com/hwang-fu/project-euler"
+             target="_blank" rel="noopener noreferrer">
+                repository.
+            </a>
+        </p>
+    </section>
+
+    <footer>
+        © 2025 Hwangfucius ·
+        <a href="https://github.com/hwang-fu" target="_blank" rel="noopener noreferrer">GitHub</a> ·
+        <a href="https://projecteuler.net" target="_blank" rel="noopener noreferrer">Project Euler</a>
+    </footer>
 
 </body>
 </html>
-

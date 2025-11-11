@@ -1,0 +1,419 @@
+<!-- * * * * * * * * * * * * * * -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Project Euler 2 - Even Fibonacci Numbers</title>
+
+    <!-- Theme (pick any from Prism site) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css">
+
+    <!-- Prism core + autoloader + line-numbers -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js"></script>
+    <script src="="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"
+            data-prismjs-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs/components/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        .hl-red      { background-color: red; }
+        .hl-green    { background-color: green; }
+        .hl-blue     { background-color: blue; }
+        .hl-yellow   { background-color: yellow; }
+
+        .hl-red-bg    { background-color: red; }
+        .hl-green-bg  { background-color: green; }
+        .hl-blue-bg   { background-color: blue; }
+        .hl-yellow-bg { background-color: yellow; }
+
+        .hl-red-fg    { color: red; }
+        .hl-green-fg  { color: green; }
+        .hl-blue-fg   { color: blue; }
+        .hl-yellow-fg { color: yellow; }
+        .hl-grey-fg   { color: grey; }
+        .hl-black-fg  { color: black; }
+
+        .comment {
+            color: grey;
+        }
+
+        .red-underline {
+            text-decoration-line: underline;
+            text-decoration-color: red;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+
+        body {
+            font-family: "KaiTi", "楷体", "STKaiti", "Kaiti SC", serif;
+            font-variant-ligatures: none;
+        }
+
+        ul > li {
+            list-style-type: disc;
+        }
+
+        code {
+            color: #24292e;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: .375rem;
+            padding: .15rem .35rem;
+            font-family: "FiraCode Nerd Font", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        pre {
+            margin: 1rem 0;
+            padding: .8rem 1rem;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: .5rem;
+            overflow: auto;
+            tab-size: 4;
+        }
+
+        pre code {
+            display: block;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            color: #24292e;
+            font-family: "FiraCode Nerd Font", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+    </style>
+</head>
+<!-- * * * * * * * * * * * * * * -->
+<body>
+
+<hr/>
+<h1>Project Euler #2 – Even Fibonacci Numbers</h1>
+<hr/>
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>Problem Overview</h3>
+<ul>
+    <li>Consider the Fibonacci sequence defined in this problem as:
+        <ul>
+            <li><code>fib(0) = 1</code>, <code>fib(1) = 2</code></li>
+            <li><code>fib(n) = fib(n-1) + fib(n-2)</code> for <code>n ≥ 2</code></li>
+        </ul>
+    </li>
+    <br/>
+    <li>The sequence begins: <code>1, 2, 3, 5, 8, 13, 21, 34, ...</code></li>
+    <br/>
+    <li><b>Goal:</b> Find the sum of the even-valued terms whose values do not exceed four million.</li>
+</ul>
+
+<br/>
+<hr/>
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>C Solution</h3>
+
+<pre><code class="language-c line-numbers">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+/// Even Fibonacci Numbers
+
+// Fibonacci Series defined in the Problem 2:
+// fib(0) = 1
+// fib(1) = 2
+// fib(2) = 3
+// fib(3) = 5
+// fib(4) = 8
+// ...
+// fib(n) = fib(n-1) + fib(n-2)
+
+#define FOUR_MILLION (4000000ul)
+
+uint64_t fib(uint64_t n)
+{
+    if (n == 0)
+    {
+        return 1;
+    }
+
+    if (n == 1)
+    {
+        return 2;
+    }
+
+    return fib(n-1) + fib(n-2);
+}
+
+uint64_t solve()
+{
+    uint64_t sum = 0;
+    uint64_t n = 0;
+    while (1)
+    {
+        uint64_t term = fib(n);
+        if (term &gt; FOUR_MILLION)
+        {
+            break;
+        }
+        if (term % 2 == 0)
+        {
+            sum += term;
+        }
+        n++;
+    }
+    return sum;
+}
+
+int main()
+{
+    printf(
+        "The sum of the even-valued fibonacci numbers whose values do not exceed four million: %lu\n",
+        solve());
+    return 0;
+}
+</code></pre>
+
+<br/>
+
+<ol>
+    <li><b>Key Ideas</b></li>
+    <br/>
+    <ul>
+        <li>Use a recursive function <code>fib</code> that matches the problem's definition of Fibonacci numbers starting with <code>1</code> and <code>2</code>.</li>
+        <li>Generate terms one by one: <code>fib(0), fib(1), fib(2), ...</code></li>
+        <li>Stop when the current term is greater than <code>4,000,000</code>.</li>
+        <li>Accumulate only the even-valued terms in a running sum.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>The <code>fib</code> Function</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">uint64_t fib(uint64_t n)
+{
+    if (n == 0)
+    {
+        return 1;
+    }
+
+    if (n == 1)
+    {
+        return 2;
+    }
+
+    return fib(n-1) + fib(n-2);
+}
+</code></pre>
+    <ul>
+        <li>Base cases:
+            <ul>
+                <li><code>fib(0) = 1</code></li>
+                <li><code>fib(1) = 2</code></li>
+            </ul>
+        </li>
+        <li>For <code>n ≥ 2</code>, compute <code>fib(n)</code> as the sum of the two previous terms.</li>
+        <li>Return type <code>uint64_t</code> avoids overflow for this range of values.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>The <code>solve</code> Function</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">uint64_t solve()
+{
+    uint64_t sum = 0;
+    uint64_t n = 0;
+    while (1)
+    {
+        uint64_t term = fib(n);
+        if (term &gt; FOUR_MILLION)
+        {
+            break;
+        }
+        if (term % 2 == 0)
+        {
+            sum += term;
+        }
+        n++;
+    }
+    return sum;
+}
+</code></pre>
+    <ul>
+        <li><code>sum</code> stores the running total of even Fibonacci numbers.</li>
+        <li><code>n</code> indexes Fibonacci terms (<code>fib(0), fib(1), ...</code>).</li>
+        <li>Each loop:
+            <ul>
+                <li>Compute the current term <code>term = fib(n)</code>.</li>
+                <li>If <code>term &gt; 4,000,000</code>, stop.</li>
+                <li>If <code>term</code> is even, add it to <code>sum</code>.</li>
+                <li>Increase <code>n</code> and continue.</li>
+            </ul>
+        </li>
+        <li>Returns the final sum.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b><code>main</code> and Output</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">int main()
+{
+    printf(
+        "The sum of the even-valued fibonacci numbers whose values do not exceed four million: %lu\n",
+        solve());
+    return 0;
+}
+</code></pre>
+    <ul>
+        <li>Calls <code>solve()</code> and prints the result in a descriptive sentence.</li>
+        <li>Returns <code>0</code> to indicate success.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Complexity and Possible Improvement</b></li>
+    <br/>
+    <ul>
+        <li>The recursive Fibonacci implementation is exponential in general, but here it is acceptable because the sequence crosses 4 million in only a few dozen terms.</li>
+        <li>For practice, you could also implement an iterative Fibonacci generator that builds each term from the previous two without recursion.</li>
+    </ul>
+</ol>
+<br/>
+<!-- * * * * * * * * * * * * * * -->
+<hr/>
+<!-- * * * * * * * * * * * * * * -->
+<h3>Common Lisp Solution</h3>
+
+<ol>
+    <li><b>Problem Setup</b></li>
+    <br/>
+    <ul>
+        <li>The task is the same: sum all even-valued Fibonacci numbers not exceeding four million.</li>
+        <li>In Lisp, we can elegantly express iterative computations using the <code>loop</code> macro.</li>
+    </ul>
+    <br/><br/>
+
+
+    <li><b>Full Lisp Solution</b></li>
+<pre><code class="language-lisp line-numbers">(defvar *four-million* 4000000)
+
+(defun sum-even-fibonacci-numbers (upper-bound-inclusive)
+  (loop for a = 1 then b
+        and b = 2 then (+ a b)
+        while (<= a upper-bound-inclusive)
+        when (evenp a) sum a))
+</code></pre>
+    <br/>
+    <ul>
+        <li><code>*four-million*</code> is defined as a global constant holding the upper bound.</li>
+        <li><code>sum-even-fibonacci-numbers</code> performs the iteration and returns the total sum.</li>
+    </ul>
+    <br/><br/>
+
+
+    <li><b>Understanding the <code>loop</code> Construct</b></li>
+    <br/>
+    <ul>
+        <li><code>loop</code> is a powerful macro in Common Lisp for iteration and accumulation.</li>
+        <li>This version defines two variables at once:
+<pre><code class="language-lisp line-numbers">for a = 1 then b
+and b = 2 then (+ a b)
+</code></pre>
+            <ul>
+                <li><code>a</code> starts at <code>1</code> and becomes <code>b</code> in each iteration.</li>
+                <li><code>b</code> starts at <code>2</code> and becomes <code>(+ a b)</code> each time.</li>
+                <li>Together they generate the Fibonacci sequence: <code>1, 2, 3, 5, 8, 13, ...</code></li>
+            </ul>
+        </li>
+        <br/>
+        <li>The termination condition:
+<pre><code class="language-lisp line-numbers">while (<= a upper-bound-inclusive)
+</code></pre>
+            <ul>
+                <li>Stops the loop once the current term <code>a</code> exceeds the given upper bound.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>Conditional summation:
+<pre><code class="language-lisp line-numbers">when (evenp a) sum a
+</code></pre>
+            <ul>
+                <li><code>(evenp a)</code> checks if <code>a</code> is even.</li>
+                <li>If true, <code>a</code> is added to the cumulative sum.</li>
+            </ul>
+        </li>
+    </ul>
+    <br/><br/>
+
+
+    <li><b>Example Evaluation</b></li>
+<pre><code class="language-lisp line-numbers">* (sum-even-fibonacci-numbers *four-million*)
+4613732
+</code></pre>
+    <br/>
+    <ul>
+        <li>The result <code>4613732</code> matches the correct answer from Project Euler #2.</li>
+        <li>The loop handles both Fibonacci generation and even filtering in one compact form.</li>
+    </ul>
+    <br/><br/>
+
+
+    <li><b>Highlights</b></li>
+    <br/>
+    <ul>
+        <li>No recursion or extra data structures are required — just pure looping and accumulation.</li>
+        <li>The <code>loop</code> construct combines initialization, update, condition, and summation seamlessly.</li>
+        <li>The use of <code>for a ... and b ...</code> keeps both Fibonacci terms in sync each iteration.</li>
+    </ul>
+    <br/><br/>
+
+
+    <li><b>Performance</b></li>
+    <br/>
+    <ul>
+        <li>This solution runs in <b>O(k)</b> time, where <code>k</code> is the number of Fibonacci terms up to four million.</li>
+        <li>In practice, it finishes instantly since there are only a few dozen iterations.</li>
+    </ul>
+</ol>
+<br/>
+<!-- * * * * * * * * * * * * * * -->
+
+
+<hr/>
+
+
+<!-- * * * * * * * * * * * * * * -->
+<footer>
+    <p>&copy; 2025 Hwangfucius. All rights reserved.</p>
+</footer>
+<!-- * * * * * * * * * * * * * * -->
+
+</body>
+<!-- * * * * * * * * * * * * * * -->
+</html>
+<!-- * * * * * * * * * * * * * * -->
+

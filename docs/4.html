@@ -1,0 +1,313 @@
+<!-- * * * * * * * * * * * * * * -->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Project Euler #4 – Largest Palindrome Product</title>
+
+    <!-- Theme (pick any from Prism site) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.css">
+
+    <!-- Prism core + autoloader + line-numbers -->
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"
+            data-prismjs-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs/components/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/line-numbers/prism-line-numbers.min.js"></script>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        .hl-red      { background-color: red; }
+        .hl-green    { background-color: green; }
+        .hl-blue     { background-color: blue; }
+        .hl-yellow   { background-color: yellow; }
+
+        .hl-red-bg    { background-color: red; }
+        .hl-green-bg  { background-color: green; }
+        .hl-blue-bg   { background-color: blue; }
+        .hl-yellow-bg { background-color: yellow; }
+
+        .hl-red-fg    { color: red; }
+        .hl-green-fg  { color: green; }
+        .hl-blue-fg   { color: blue; }
+        .hl-yellow-fg { color: yellow; }
+        .hl-grey-fg   { color: grey; }
+        .hl-black-fg  { color: black; }
+
+        .comment {
+            color: grey;
+        }
+
+        .red-underline {
+            text-decoration-line: underline;
+            text-decoration-color: red;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+
+        body {
+            font-family: "KaiTi", "楷体", "STKaiti", "Kaiti SC", serif;
+            font-variant-ligatures: none;
+        }
+
+        ul > li {
+            list-style-type: disc;
+        }
+
+        code {
+            color: #24292e;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: .375rem;
+            padding: .15rem .35rem;
+            font-family: "FiraCode Nerd Font", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        pre {
+            margin: 1rem 0;
+            padding: .8rem 1rem;
+            background-color: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: .5rem;
+            overflow: auto;
+            tab-size: 4;
+        }
+
+        pre code {
+            display: block;
+            padding: 0;
+            background: transparent;
+            border: 0;
+            color: #24292e;
+            font-family: "FiraCode Nerd Font", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+    </style>
+</head>
+<!-- * * * * * * * * * * * * * * -->
+<body>
+
+<hr/>
+<h1>Project Euler #4 – Largest Palindrome Product</h1>
+<hr/>
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>Problem Overview</h3>
+<ul>
+    <li>A <b>palindromic number</b> reads the same forward and backward (e.g. <code>121</code>, <code>9009</code>).</li>
+    <br/>
+    <li><b>Goal:</b> Find the largest palindrome made from the product of two 3-digit numbers.</li>
+    <br/>
+    <li>Example:
+        <ul>
+            <li><code>91 × 99 = 9009</code> is a palindrome.</li>
+            <li>For the full problem, we must search all products from <code>100</code> to <code>999</code>.</li>
+        </ul>
+    </li>
+</ul>
+
+<br/>
+<hr/>
+
+<!-- * * * * * * * * * * * * * * -->
+<h3>C Solution</h3>
+
+<pre><code class="language-c line-numbers">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdbool.h&gt;
+
+bool isPalindrome(uint64_t n)
+{
+    if (n &lt;= 9)
+    {
+        return true;
+    }
+
+    uint64_t original = n;
+    uint64_t reversed = 0;
+
+    while (n)
+    {
+        reversed *= 10;
+        reversed += n % 10;
+        n /= 10;
+    }
+
+    return original == reversed;
+}
+
+uint64_t solve()
+{
+    uint64_t largestProduct = 0;
+
+    for (uint64_t i = 999; i &gt;= 100; i--)
+    {
+        for (uint64_t j = i; j &gt;= 100; j--)
+        {
+            const uint64_t product = i * j;
+            if (isPalindrome(product) &amp;&amp; product &gt; largestProduct)
+            {
+                largestProduct = product;
+            }
+        }
+    }
+
+    return largestProduct;
+}
+
+int main()
+{
+    fprintf(stdout,
+            "Largest palindrome made from the product of two 3-digit numbers is %lu\n",
+            solve());
+    return 0;
+}
+</code></pre>
+
+<br/>
+
+<ol>
+    <li><b>Checking if a Number Is a Palindrome</b></li>
+    <br/>
+    <ul>
+        <li>The helper function <code>isPalindrome</code> reverses the decimal digits of <code>n</code> and compares:</li>
+    </ul>
+<pre><code class="language-c line-numbers">bool isPalindrome(uint64_t n)
+{
+    if (n &lt;= 9)
+    {
+        return true;
+    }
+
+    uint64_t original = n;
+    uint64_t reversed = 0;
+
+    while (n)
+    {
+        reversed *= 10;
+        reversed += n % 10;
+        n /= 10;
+    }
+
+    return original == reversed;
+}
+</code></pre>
+    <ul>
+        <li>Single-digit numbers are trivially palindromes.</li>
+        <li>In the loop:
+            <ul>
+                <li>Take the last digit <code>n % 10</code> and append it to <code>reversed</code>.</li>
+                <li>Drop the last digit with <code>n /= 10</code>.</li>
+            </ul>
+        </li>
+        <li>At the end, if <code>original == reversed</code>, the number is palindromic.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Searching Over 3-Digit Products</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">uint64_t solve()
+{
+    uint64_t largestProduct = 0;
+
+    for (uint64_t i = 999; i &gt;= 100; i--)
+    {
+        for (uint64_t j = i; j &gt;= 100; j--)
+        {
+            const uint64_t product = i * j;
+            if (isPalindrome(product) &amp;&amp; product &gt; largestProduct)
+            {
+                largestProduct = product;
+            }
+        }
+    }
+
+    return largestProduct;
+}
+</code></pre>
+    <ul>
+        <li>We iterate <b>downwards</b> from <code>999</code> to <code>100</code>:
+            <ul>
+                <li>Outer loop: <code>i</code> runs from <code>999</code> down to <code>100</code>.</li>
+                <li>Inner loop: <code>j</code> starts at <code>i</code> and goes down to <code>100</code>.</li>
+                <li>Using <code>j = i</code> avoids checking both <code>i × j</code> and <code>j × i</code> separately.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>For each pair <code>(i, j)</code>:
+            <ul>
+                <li>Compute <code>product = i * j</code>.</li>
+                <li>If it is a palindrome and larger than the current <code>largestProduct</code>, update the maximum.</li>
+            </ul>
+        </li>
+        <br/>
+        <li>After exploring all pairs, <code>largestProduct</code> holds the answer.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b><code>main</code> and Output</b></li>
+    <br/>
+<pre><code class="language-c line-numbers">int main()
+{
+    fprintf(stdout,
+            "Largest palindrome made from the product of two 3-digit numbers is %lu\n",
+            solve());
+    return 0;
+}
+</code></pre>
+    <ul>
+        <li><code>solve()</code> returns the largest palindromic product, which is then printed to standard output.</li>
+        <li>Return value <code>0</code> signals successful program termination.</li>
+    </ul>
+    <br/><br/>
+
+    <li><b>Complexity and Notes</b></li>
+    <br/>
+    <ul>
+        <li>There are at most about <code>(999 - 99)^2 ≈ 810,000</code> pairs to test.</li>
+        <li>For each pair, <code>isPalindrome</code> runs in time proportional to the number of digits (at most 6 digits here).</li>
+        <li>Overall this is easily fast enough in C for a one-off calculation.</li>
+        <li>Further micro-optimizations (like breaking early if the product cannot exceed the current maximum) are possible, but unnecessary for this problem size.</li>
+    </ul>
+</ol>
+
+<br/>
+<hr/>
+
+<footer>
+    <p>&copy; 2025 Hwangfucius. All rights reserved.</p>
+</footer>
+
+</body>
+<!-- * * * * * * * * * * * * * * -->
+</html>
+<!-- * * * * * * * * * * * * * * -->
+

@@ -121,7 +121,85 @@
 
 
 <!-- * * * * * * * * * * * * * * -->
-<pre><code class="language-c line-numbers">
+<pre><code class="language-c line-numbers">#include &lt;stdint.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;stdio.h&gt;
+
+bool isDivisible(uint64_t dividend)
+{
+    static uint64_t divisors[10] = {
+        11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+    };
+
+    for (uint64_t i = 0; i &lt; 10; i++)
+    {
+        const uint64_t divisor = divisors[i];
+        if (dividend % divisor != 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+uint64_t solve()
+{
+    uint64_t n = 1;
+    while (!isDivisible(n))
+    {
+        n++;
+    }
+    return n;
+}
+
+
+int main()
+{
+    fprintf(stdout, "The smallest positive number that is evenly divisible by all of the numbers from 1 to 20 is %lu\n", solve());
+    return 0;
+}
+</code></pre>
+<!-- * * * * * * * * * * * * * * -->
+
+
+<hr/>
+
+
+<!-- * * * * * * * * * * * * * * -->
+<pre><code class="language-c line-numbers">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+
+uint64_t gcd(uint64_t a, uint64_t b)
+{
+    while (b)
+    {
+        uint64_t temp = a % b;
+        a = b;
+        b = temp;
+    }
+    return a;
+}
+
+uint64_t lcm(uint64_t a, uint64_t b)
+{
+    return a / gcd(a, b) * b;
+}
+
+uint64_t solve()
+{
+    uint64_t n = 1;
+    for (uint64_t x = 2; x &lt;= 20; x++)
+    {
+        n = lcm(n, x);
+    }
+    return n;
+}
+
+int main()
+{
+    fprintf(stdout, "The smallest positive number that is evenly divisible by all of the numbers from 1 to 20 is %lu\n", solve());
+    return 0;
+}
 </code></pre>
 <!-- * * * * * * * * * * * * * * -->
 

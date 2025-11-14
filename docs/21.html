@@ -121,7 +121,71 @@
 
 
 <!-- * * * * * * * * * * * * * * -->
-<pre><code class="language-c line-numbers">
+<pre><code class="language-c line-numbers">#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define K (10000)
+
+#define N (10000000)
+uint64_t D_n[N] = { 0 };
+
+uint64_t d(uint64_t n)
+{
+    if (n &lt; N &amp;&amp; D_n[n] != 0)
+    {
+        return D_n[n];
+    }
+
+    uint64_t sum = 0;
+    for (uint64_t i = 1; i &lt;= n / 2; i++)
+    {
+        if (n % i == 0)
+        {
+            sum += i;
+        }
+    }
+    if (n &lt; N)
+    {
+        D_n[n] = sum;
+    }
+
+    return sum;
+}
+
+bool IsAmicable(uint64_t a)
+{
+    uint64_t b = d(a);
+
+    if (a == b)
+    {
+        // different number required.
+        return false;
+    }
+
+    return a == d(b);
+}
+
+void Solve()
+{
+    uint64_t sum = 0;
+
+    for (uint64_t i = 2; i &lt; K; i++)
+    {
+        if (IsAmicable(i))
+        {
+            sum += i;
+        }
+    }
+
+    printf("%lu\n", sum);
+}
+
+int main()
+{
+    Solve();
+    return 0;
+}
 </code></pre>
 <!-- * * * * * * * * * * * * * * -->
 

@@ -121,7 +121,16 @@
 
 
 <!-- * * * * * * * * * * * * * * -->
-<pre><code class="language-c line-numbers">
+<pre><code class="language-ts line-numbers">(() =&gt; {
+    let a = 1n; // F(1)
+    let b = 1n; // F(2)
+    let n = 2;  // current index
+    while (b.toString().length &lt; 1000) {
+        [a, b] = [b, a + b];
+        n++;
+    }
+    console.log(n);
+})();
 </code></pre>
 <!-- * * * * * * * * * * * * * * -->
 

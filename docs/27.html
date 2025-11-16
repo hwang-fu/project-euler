@@ -121,7 +121,101 @@
 
 
 <!-- * * * * * * * * * * * * * * -->
-<pre><code class="language-c line-numbers">
+<pre><code class="language-c line-numbers">// Key observations:
+// At n = 0 -&gt; f(0) = b -&gt; So b MUST be prime.
+// At n = 1 -&gt; f(1) = 1 + a + b should also be prime.
+//  And since b is prime, therefore odd, and all primes are odd numbers,
+//  So 1 + a must be even -&gt; a must be also an odd number.
+#include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdbool.h&gt;
+
+#define A (1000)
+#define B (1000)
+
+#define N (1000000)
+
+int8_t Cache[N] = { 0 };
+
+bool IsPrime(uint64_t p)
+{
+    if (p &lt; 2) return false;
+
+    if ((p &amp; 0b1) == 0)
+    {
+        if (p &lt; N) Cache[p] = -1;
+        return false;
+    }
+
+    if (p &lt; N &amp;&amp; Cache[p] != 0)
+    {
+        return Cache[p] == 1;
+    }
+
+    for (uint64_t i = 3; i * i &lt;= p; i += 2)
+    {
+        if (p % i == 0)
+        {
+            if (p &lt; N) Cache[p] = -1;
+            return false;
+        }
+    }
+
+    if (p &lt; N) Cache[p] = 1;
+    return true;
+}
+
+int64_t mul(int16_t a, int16_t b)
+{
+    return (int64_t) a * (int64_t) b;
+}
+
+void Solve()
+{
+    int16_t bestN = 0;
+    int64_t ab = 0;
+
+    for (int16_t b = 3; b &lt;= B; b++)
+    {
+        if (!IsPrime(b))
+        {
+            continue;
+        }
+
+        for (int16_t a = -999; a &lt; A; a += 2)
+        {
+            int32_t n = 0;
+            for (;;++n)
+            {
+                int64_t f_n = mul(n, n) + mul(a, n) + (int64_t) b;
+                if (f_n &lt; 2 || !IsPrime((uint64_t) f_n))
+                {
+                    break;
+                }
+            }
+            if (n &gt; bestN)
+            {
+                bestN = n;
+                ab = mul(a, b);
+            }
+        }
+    }
+
+    printf("%ld\n", ab);
+}
+
+int main()
+{
+    Cache[0] = -1;
+    Cache[1] = -1;
+    Cache[2] = 1;
+    for (uint16_t i = 3; i &lt;= B; i++)
+    {
+        IsPrime(i);
+    }
+    Solve();
+    return 0;
+}
 </code></pre>
 <!-- * * * * * * * * * * * * * * -->
 

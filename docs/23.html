@@ -121,7 +121,74 @@
 
 
 <!-- * * * * * * * * * * * * * * -->
-<pre><code class="language-c line-numbers">
+<pre><code class="language-ts line-numbers">const LIMIT = 28123;
+
+const Abundants: number[] = [];
+const AbundantsSet = new Set<number&gt;();
+
+const isAbundant = (n: number): boolean =&gt; {
+    if (n &lt; 12) {
+        return false;
+    }
+
+    // `1` is always a proper divisor for `n &gt; 1`.
+    let sum = 1;
+    const r = Math.floor(Math.sqrt(n));
+    for (let divisor = 2; divisor &lt;= r; divisor++) {
+        if (n % divisor != 0) {
+            continue;
+        }
+
+        sum += divisor;
+
+        // If `divisor` divides `n`, then `n/divisor` should also divide `n`.
+        // And one of the two is ≤ √n and the other is ≥ √n.
+        // Therefore, we don't have to iterate over n/2, iterate over √n is sufficient.
+        const other = n / divisor;
+        if (other !== divisor) {
+            sum += other;
+        }
+
+        if (sum &gt; n) {
+            return true;
+        }
+    }
+
+    return sum &gt; n;
+};
+
+const qualify = (n: number) =&gt; {
+    for (const abundant of Abundants) {
+        if (abundant &gt;= n) {
+            break;
+        }
+
+        if (AbundantsSet.has(n - abundant)) {
+            return true;
+        }
+    }
+    return false;
+};
+
+(function Solve() {
+    let total = 0;
+
+    for (let i = 1; i &lt;= LIMIT; i++) {
+        if (!isAbundant(i)) {
+            continue;
+        }
+        Abundants.push(i);
+        AbundantsSet.add(i);
+    }
+
+    for (let i = 1; i &lt;= LIMIT; i++) {
+        if (!qualify(i)) {
+            total += i;
+        }
+    }
+
+    console.log(total);
+})();
 </code></pre>
 <!-- * * * * * * * * * * * * * * -->
 
